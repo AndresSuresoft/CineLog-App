@@ -7,6 +7,7 @@ import { ProfilePage } from "./features/profile/pages/ProfilePage";
 import { AdminPage } from "./features/admin/pages/AdminPage";
 import { RequireAdmin } from "./features/auth/guards/RequireAdmin";
 
+
 function App() {
   return (
     <>
