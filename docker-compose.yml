@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Frontend Service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cinelog-frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=${API_URL:-https://api.themoviedb.org}
+    networks:
+      - cinelog-network
+    restart: unless-stopped
+     volumes:
+      - nginx-logs:/var/log/nginx
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  cinelog-network:
+    driver: bridge
+
+    volumes:
+  nginx-logs:
+    driver: local
